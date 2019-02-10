@@ -132,7 +132,7 @@ TEMPLATES = [
 
 # URL SETTINGS
 # https://docs.djangoproject.com/en/2.0/ref/settings/#root-urlconf.
-ROOT_URLCONF = '{{ project_name }}.urls'
+ROOT_URLCONF = '{{ egeaalumni2019 }}.urls'
 
 
 # MIDDLEWARE SETTINGS
@@ -152,7 +152,7 @@ MIDDLEWARE = [
 LOGGING = {
     'version': 1,
     'loggers': {
-        '{{ project_name }}': {
+        '{{ egeaalumni2019 }}': {
             'level': "DEBUG"
         }
     }

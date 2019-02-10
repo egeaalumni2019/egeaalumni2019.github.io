@@ -1,1 +1,1 @@
-""" Settings for {{ project_name }} """
+""" Settings for {{ egeaalumni2019 }} """

@@ -25,13 +25,13 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 # WSGI SETTINGS
 # https://docs.djangoproject.com/en/1.10/ref/settings/#wsgi-application
-WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
+WSGI_APPLICATION = '{{ egeaalumni2019 }}.wsgi.application'
 
 # NOTIFICATIONS
 # A tuple that lists people who get code error notifications.
 # https://docs.djangoproject.com/en/1.10/ref/settings/#admins
 ADMINS = (
-         ('Your Name', 'your_email@example.com'),
+         ('EGEA Alumni 2019', 'egeaalumni2019@gmail.com'),
 )
 MANAGERS = ADMINS
 
