@@ -26,7 +26,7 @@ body {
 	min-width: 960px;
 	padding: 0;
 }
-
+/*
 #header ul li a div .navbar {
   overflow: hidden;
   background-color: #252525;
@@ -40,7 +40,7 @@ body {
   padding: 14px 16px;
   text-decoration: none;
 }
-
+*/
 #header ul li a div .dropdown {
   float: left;
   overflow: hidden;
@@ -58,6 +58,7 @@ body {
 	text-transform: uppercase;
 }
 
+
 #header ul li a div .navbar a:hover, .dropdown:hover .dropbtn {
   background-color: #898989;
 }
@@ -67,7 +68,6 @@ body {
   position: absolute;
   background-color: white;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
