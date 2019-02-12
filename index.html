@@ -1,60 +1,87 @@
-{% templatetag openblock %} load static {% templatetag closeblock %}
-{% templatetag openblock %} load compress {% templatetag closeblock %}
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{% templatetag openblock %} block meta_description {% templatetag closeblock %}{% templatetag openblock %} endblock {% templatetag closeblock %}">
-    <meta name="author" content="{% templatetag openblock %} block meta_author {% templatetag closeblock %}{% templatetag openblock %} endblock {% templatetag closeblock %}">
-
-    <title>{% templatetag openblock %} block page_title {% templatetag closeblock %}{{ _("My Site") }}{% templatetag openblock %} endblock {% templatetag closeblock %}</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% templatetag openblock %} static 'css/base.css' {% templatetag closeblock %}">
+<!doctype html>
+<!-- Website Template by freewebsitetemplates.com -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mustache Enthusiast</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/mobile.css" media="screen and (max-width : 568px)">
+	<script type="text/javascript" src="js/mobile.js"></script>
 </head>
-
 <body>
-{% templatetag openblock %} block body {% templatetag closeblock %}
-
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">EGEA Alumni meet-up 2019</a>
-      </div>
-      <div id="navbar" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#location">Location & getting there</a></li>
-          <li><a href="#accomodation">Accommodation</a></li>
-          <li><a href="#programme">Programme</a></li>
-          <li><a href="#organisers">Organisers</a></li>
-          <li><a href="#fee">Fee</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <div class="container">
-    {% templatetag openblock %} block content {% templatetag closeblock %}{% templatetag openblock %} endblock {% templatetag closeblock %}
-  </div>
-
-  {% templatetag openblock %} compress js {% templatetag closeblock %}
-    <script src="{% templatetag openblock %} static 'js/app.js' {% templatetag closeblock %}"></script>
-  {% templatetag openblock %} endcompress {% templatetag closeblock %}
-
-  <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID -->
-  <script>
-    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
-  </script>
-{% templatetag openblock %} endblock {% templatetag closeblock %}
+	<div id="header">
+		<a href="index.html" class="logo">
+			<img src="images/logo.jpg" alt="">
+		</a>
+		<ul id="navigation">
+			<li class="selected">
+				<a href="index.html">home</a>
+			</li>
+			<li>
+				<a href="about.html">about</a>
+			</li>
+			<li>
+				<a href="gallery.html">gallery</a>
+			</li>
+			<li>
+				<a href="blog.html">blog</a>
+			</li>
+			<li>
+				<a href="contact.html">contact</a>
+			</li>
+		</ul>
+	</div>
+	<div id="body">
+		<div id="featured">
+			<img src="images/the-beacon.jpg" alt="">
+			<div>
+				<h2>the beacon to all mankind</h2>
+				<span>Our website templates are created with</span>
+				<span>inspiration, checked for quality and originality</span>
+				<span>and meticulously sliced and coded.</span>
+				<a href="blog-single-post.html" class="more">read more</a>
+			</div>
+		</div>
+		<ul>
+			<li>
+				<a href="gallery.html">
+					<img src="images/the-father.jpg" alt="">
+					<span>the father</span>
+				</a>
+			</li>
+			<li>
+				<a href="gallery.html">
+					<img src="images/the-actor.jpg" alt="">
+					<span>the actor</span>
+				</a>
+			</li>
+			<li>
+				<a href="gallery.html">
+					<img src="images/the-nerd.jpg" alt="">
+					<span>the nerd</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div id="footer">
+		<div>
+			<p>&copy; 2023 by Mustacchio. All rights reserved.</p>
+			<ul>
+				<li>
+					<a href="http://freewebsitetemplates.com/go/twitter/" id="twitter">twitter</a>
+				</li>
+				<li>
+					<a href="http://freewebsitetemplates.com/go/facebook/" id="facebook">facebook</a>
+				</li>
+				<li>
+					<a href="http://freewebsitetemplates.com/go/googleplus/" id="googleplus">googleplus</a>
+				</li>
+				<li>
+					<a href="http://pinterest.com/fwtemplates/" id="pinterest">pinterest</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </body>
 </html>
