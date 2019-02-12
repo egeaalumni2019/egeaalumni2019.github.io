@@ -84,10 +84,10 @@ body {
   background-color: #898989;
 }
 
-/*#header ul li a div .dropdown:hover .dropdown-content {
+#header ul li a div .dropdown:hover .dropdown-content {
   display: block;
 }
-*/
+
 #header ul li a div:hover, #header ul li.selected a {
 	color: #0ba39c;
 }
