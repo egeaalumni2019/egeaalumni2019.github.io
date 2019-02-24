@@ -1,304 +1,163 @@
-// ---------- Point ----------
+var context = document.getElementById('canvas').getContext('2d');
+var x = 100;
+var y = 100;
 
-function Point(x, y) {
-  this.x = x;
-  this.y = y;
-}
+var term = "unchanged";
 
-Point.prototype.set = function(x, y) {
-  this.x = x;
-  this.y = y;
-}
+var grid = [];
+var num_tiles = 0;
+//var game_count = 0;
+var game_over = false;
 
-Point.prototype.add = function(otherPoint) {
-  return new Point(this.x + otherPoint.x, this.y + otherPoint.y);
-}
+var x_size = 300;
+var y_size = 300;
 
-Point.prototype.addTo = function(otherPoint) {
-  this.set(this.x + otherPoint.x, this.y + otherPoint.y);
-}
+var grid_x_size = 400;
+var grid_y_size =400;
 
-Point.prototype.isEqualTo = function(otherPoint) {
-  return (this.x == otherPoint.x && this.y == otherPoint.y);
-}
+for (i = 0; i < grid_x_size; ++i) {
+    grid[i] = [];
 
-// ---------- Mushroom ----------
-
-function Mushroom(point) {
-  this.location = point;
-  this.life = min_mushroom_life + randomNumber(min_mushroom_life);
-  this.scale = mushroom_growth_delta;
-  this.scaling = mushroom_growth_delta;
-}
-
-Mushroom.prototype.update = function() {
-  if (this.scaling != 0) {
-    this.scale += this.scaling;
-    if (this.scaling > 0 && this.scale >= 1) {
-      this.scale = 1;
-      this.scaling = 0;
-    } else if (this.scaling < 0 && this.scale < (2 * mushroom_growth_delta)) {
-      this.scale = 0;
-      this.scaling = 0;
+    for (j = 0; j < grid_y_size; ++j) {
+        grid[i][j] = false;
     }
-  } else {
-    this.life--;
-    if (this.life == 1) {
-      this.scaling = -mushroom_growth_delta;
-    }
-  }
 }
 
-Mushroom.prototype.alive = function() {
-  return (this.life > 0);
-}
+function game_stop() {
+    clearInterval(timer);
+    game_over = true;
+    console.log("game stopped");
+    console.log(term);
+    console.log(num_tiles);
+    //game_count = game_count + 1;
 
-Mushroom.prototype.draw = function() {
-  retroCanvas.drawPixel(this.location.x, this.location.y, this.scale, 'green');
-}
-
-// ---------- Playfield ----------
-
-function PlayField(width, height) {
-  this.width = width;
-  this.height = height;
-  this.mushrooms = [];
-  this.starBursts = [];
-}
-
-PlayField.prototype.update = function() {
-  var i = 0;
-  while (i < this.mushrooms.length) {
-    this.mushrooms[i].update();
-    if (!this.mushrooms[i].alive()) {
-      this.removeMushroom(this.mushrooms[i]);
-    } else {
-      i++;
-    }
-  }
-  if (this.mushrooms.length < max_mushrooms && randomNumber(mushroom_frequency) == 3) {
-    this.spawnMushroom();
-  }
-  var i = 0;
-  while (i < this.starBursts.length) {
-    this.starBursts[i].update();
-    if (this.starBursts[i].done()) {
-      this.starBursts.splice(i, 1);
-    } else {
-      i++;
-    }
-  }
-}
-
-PlayField.prototype.spawnMushroom = function() {
-  var location = new Point(0, 0);
-  while (true) {
-    location.set(randomNumber(playField.width), randomNumber(playField.height));
-    if (this.mushroomAt(location) == undefined && !snake.hasSegmentAt(location)) {
-      var mushroom = new Mushroom(location);
-      this.mushrooms.push(mushroom);
-      break;
-    }
-  }
-}
-
-PlayField.prototype.removeMushroom = function(mushroom) {
-  var index = findIndex(this.mushrooms, function(mush) { return(mush == mushroom) });
-  if (index >= 0) {
-    this.mushrooms.splice(index, 1);
-  }
-}
-
-PlayField.prototype.munchMushroom = function(point) {
-  var mushroom = this.mushroomAt(point);
-  if (mushroom != undefined) {
-    this.starBursts.push(new StarBurst(mushroom.location));
-    this.removeMushroom(mushroom);
-    updateScore(score + mushroom_score);
-    return true;
-  } else {
-    return false;
-  }
-}
-
-PlayField.prototype.mushroomAt = function(point) {
-  return find(this.mushrooms, function(mush) {
-    return(mush.alive() && mush.location.isEqualTo(point));
-  });
-}
-
-PlayField.prototype.draw = function() {
-  retroCanvas.clear();
-  each(this.mushrooms, function(mushroom) {
-    mushroom.draw();
-  });
-  each(this.starBursts, function(starBurst) {
-    starBurst.draw();
-  });
-}
-
-// ---------- Snake ----------
-
-function Snake(length) {
-  var snake = this;
-  snake.segments = [];
-  snake.alive = true;
-  snake.direction = new Point(1, 0);
-  snake.lastDirection = snake.direction;
-  x = Math.round(playField.width / 2);
-  y = Math.round(playField.height / 2);
-  for (var i = 0; i < length; i++) {
-    snake.segments.push(new Point(x, y));
-  }
-}
-
-Snake.prototype.head = function() {
-  return this.segments[0];
-}
-
-Snake.prototype.tail = function() {
-  return this.segments[this.segments.length - 1];
-}
-
-Snake.prototype.hasSegmentAt = function(location) {
-  return (arrayHas(this.segments, function(segment) {
-    return(segment.isEqualTo(location));
-  }));
-}
-
-Snake.prototype.draw = function() {
-  retroCanvas.beginPath(snake.head().x, snake.head().y, '#f00');
-  each(this.segments, function(segment) {
-    retroCanvas.lineTo(segment.x, segment.y);
-  })
-  retroCanvas.endPath();
-  retroCanvas.drawPixel(snake.head().x, snake.head().y, 1, '#000');
-  retroCanvas.drawPixel(snake.tail().x, snake.tail().y, 1, '#f00');
-}
-
-Snake.prototype.move = function() {
-  var snake = this;
-  if (snake.willMeetItsDoom()) {
-    snake.alive = false;
-  } else {
-    if (ticks % snake_grows_after_ticks == 0) {
-      snake.grow(1);
-    }
-    if (snake.willMunchAMushroom()) {
-      snake.grow(segments_added_per_mushroom);
-    }
-    for (var i = snake.segments.length - 1; i > 0; i--) {
-      snake.segments[i].set(snake.segments[i - 1].x, snake.segments[i - 1].y);
-    }
-    snake.head().addTo(snake.direction);
-    snake.lastDirection = snake.direction;
-  }
-}
-
-Snake.prototype.willMeetItsDoom = function() {
-  var snake = this;
-  var newHead = snake.head().add(snake.direction);
-  if (newHead.x < 0 || newHead.x >= playField.width || newHead.y < 0 || newHead.y >= playField.height) {
-    return true;
-  }
-  if (snake.hasSegmentAt(newHead)) {
-    return true;
-  }
-  return false;
-}
-
-Snake.prototype.willMunchAMushroom = function() {
-  var newHead = snake.head().add(snake.direction);
-  return playField.munchMushroom(newHead);
-}
-
-Snake.prototype.grow = function(length) {
-  for (var i = 0; i < length; i++) {
-    this.segments.push(new Point(snake.tail().x, snake.tail().y));
-  }
-}
-
-Snake.prototype.changeDirection = function(direction) {
-  if (direction != undefined) {
-    var d = this.lastDirection.add(direction);
-    if (d.x != 0 || d.y != 0) { // don't allow player to move back in the direction they are going
-      this.direction = direction;
-    }
-  }
-}
-
-
-// ---------- Keyboard controller ----------
-
-keyMap = new Object({37: new Point(-1, 0), 39: new Point(1, 0), 38: new Point(0, -1), 40: new Point(0, 1)});
-
-function KeyboardController() {
-  var keyboardController = this;
-  keyboardController.keysDown = [];
-  document.onkeydown = function(event) { keyboardController.keyDown(event); }
-  document.onkeyup = function(event) { keyboardController.keyUp(event); }
-}
-
-KeyboardController.prototype.keyDown = function(event) {
-  var key = (event || window.event).keyCode;
-  if (this.keysDown.findIndex(key) == -1) {
-    this.keysDown.push(key);
-    snake.changeDirection(keyMap[key]);
-  }
-}
-
-KeyboardController.prototype.keyUp = function(event) {
-  var key = (event || window.event).keyCode;
-  var index = this.keysDown.findIndex(key);
-  if (index >= 0) {
-    this.keysDown.splice(index, 1);
-  }
-}
-
-// ---------- Scoreboard ----------
-
-function Scoreboard() {
-  if (supports_local_storage()) {
-    var data = localStorage.getItem("scoreboard") || "0,0,0,0,0,0,0,0,0,0";
-    this.scores = data.split(',');
-    for (var i = 0; i < this.scores.length; i++) { this.scores[i] = parseInt(this.scores[i]); }
-  }
-}
-
-Scoreboard.prototype.addScore = function(playerScore) {
-  if (this.scores) {
-    var i = 0;
-    while (i < this.scores.length) {
-      if (playerScore >= this.scores[i]) {
-        this.scores.splice(i, 0, playerScore);
-        this.scores.splice(this.scores.length - 1, 1);
-        this.playerScore = playerScore;
-        localStorage.setItem("scoreboard", this.scores.toString());
-        return;
-      }
-      i++;
-    }
-    this.playerScore = undefined;
-  }
-}
-
-Scoreboard.prototype.render = function() {
-  if (this.scores) {
-    var scoreboard = this;
-    var container = document.getElementById('highscores');
-    var table = "<table><tr><th colspan='2'>Local High Scores</th></tr>";
-    var i = 1;
-    each(scoreboard.scores, function(score) {
-      if (score == scoreboard.playerScore) {
-        table += "<tr class='player'>";
-        scoreboard.playerScore = undefined;
-      } else {
-        table += "<tr>";
-      }
-      table += "<td>" + i + "</td><td>" + scoreboard.scores[i - 1] + "</td>";
-      i++;
+    $.ajax({
+        type:"POST",
+        async: false,
+        url: "snake.php",
+        data: {
+          num_tiles: num_tiles,
+          term: term
+        } //game_count
     });
-    table += "</table>";
-    container.innerHTML = table;
-  }
+
+    //context.clearRect(0, 0, canvas.width, canvas.height);
 }
+
+//description of movement
+function rect(e) {
+    if (game_over) {
+        return;
+    }
+
+    switch (e.keyCode) {
+
+        case 38:
+            (y = y - 10);
+            break;
+
+        case 40:
+            (y = y + 10);
+            break;
+
+        case 39:
+            (x = x + 10);
+            break;
+
+        case 37:
+            (x = x - 10);
+            break;
+        default:
+            return;
+    }
+    //debugger;
+    //console.log(grid[x][y]);
+
+    if (grid[x][y] === false) {
+        num_tiles = num_tiles+1; }
+
+
+    if (x > x_size) {
+        console.log("GAME OVER");
+        game_stop();
+        return;
+    }
+    if (x < 0) {
+        console.log("GAME OVER");
+        game_stop();
+        return;
+    }
+    if (y > y_size) {
+        console.log("GAME OVER");
+        game_stop();
+        return;
+    }
+    if  (y < 0) {
+        console.log("GAME OVER");
+        game_stop();
+        return;
+    }
+
+    if (grid[x][y] === true) {
+        console.log("GAME OVER");
+        game_stop();
+        return;
+    }
+
+    context.fillRect(x, y, 10, 10);
+    grid[x][y] = true;
+
+    var colors = [];
+
+    for (var g = 0; g < 3; g++) {
+        colors.push(Math.floor(Math.random() * 255));
+    }
+
+    context.fillStyle = "rgb(" + colors[0] + "," + colors[1] + "," + colors[2] + ")";
+}
+
+var timer;
+
+function restart() {
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    x = 100;
+    y = 100;
+    game_over = false;
+     for (i = 0; i < x_size; ++i) {
+       grid[i] = [];
+
+       for (j = 0; j < y_size; ++j) {
+           grid[i][j] = false;
+       }
+     }
+}
+
+document.onkeydown = function(e) {
+    clearInterval(timer);
+    timer = setInterval(rect, 100, e);
+
+};
+
+/* attach a submit handler to the form */
+$("#name_form").submit(function(event) {
+  /* stop form from submitting normally */
+  console.log("term: ", term)
+  event.preventDefault();
+  /* get some values from elements on the page: */
+  var  $form = $( this );
+  var  url = $form.attr( 'action' );
+  term = $form.find('input[name="name"]').val();
+
+  /* Send the data using post */
+  //var posting = $.post( url, { name: term } );
+  /* Alerts the results */
+  //posting.done(function( data ) {
+    //var content = $(data).find('#content');
+    alert('Thank you ' + term + ', please start play by pressing an arrow key');
+    console.log("term: ", term)
+    $("#name_form")[0].reset();
+});
+console.log("starting:")
+console.log(term);
+console.log(num_tiles);

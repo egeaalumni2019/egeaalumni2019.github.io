@@ -1,0 +1,46 @@
+body {
+    background: url(multicolor-mosaic2.jpg);
+    font-family:Helvetica;
+}
+
+div.content{
+    width: 65%;
+    height: 100%;
+    background-color: white;
+    margin-right: auto;
+    margin-left: auto;
+    -webkit-border-radius: 20px;
+    margin-top: 5%; 
+}
+h1 { 
+    color: #842871;
+    margin-left: 30%;
+    margin-right: 30%; 
+    padding: 10px; 
+}
+
+.game {
+    z-index: 2;
+    margin-left: 30px;
+}
+
+#user_action {
+    display: inline;
+    position: absolute;
+    margin-left: inherit;
+
+}
+form {
+    display: inline-block;
+}
+.button {
+    padding: .3em 1em;
+    background-color:#DA6226;
+	border-radius:5px;
+	color:#ffffff;
+	font-size:17px;
+    margin: 10px; 
+}
+
+
+

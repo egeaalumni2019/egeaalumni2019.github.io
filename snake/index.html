@@ -1,34 +1,35 @@
-<!DOCTYPE html>
-<html class='no-js' lang='en'>
-  <head>
-    <title>Canvas Snake</title>
-    <script type='text/javascript' src='util.js'></script>
-    <script type='text/javascript' src='canvas.js'></script>
-    <script type='text/javascript' src='snake.js'></script>
-    <script type='text/javascript' src='fx.js'></script>
-    <script type='text/javascript' src='main.js'></script>
-    <link href='main.css' media='screen' rel='stylesheet' type='text/css'>
-  </head>
-  <body>
-    <header>
-      <div class='title'>Canvas Snake</div>
-      <div class='score'>Score: <span id='score'>0</span></div>
-    </header>
-    <div id='main'>
-      <div id='overlay'>
-        <div id='highscores'>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="content">
+
+        <div>
+            <h1>Moving the dot</h1>
         </div>
-        <div id='buttons'>
-          <button type='button' id='startButton'>Start Game</button>
+
+        <div class="game" style="clear: both">
+            <canvas height="300px" id="canvas" style="border: 1px dotted black" width="300px"></canvas>
+
+            <span id="user_action">
+
+                <form id="name_form" action="snake.php" method="post">
+                    <label class="title">Name:</label>
+                    <input type="text" id="name" name="name" ><br>
+
+                    <input class="button" type="submit" id="submitButton"  name="submitButton" value="Submit">
+                </form>
+                <button class="button" onclick="restart();">Restart</button>
+            </span>
         </div>
-      </div>
-      <canvas id='game' width='500' height='500'>
-        Sorry, you need a browser that supports the HTML canvas element.
-      </canvas>
     </div>
-    <footer>
-      <div class='copyright'>&copy;2012 Michael Patricios</div>
-      <div class='source'><a href='https://github.com/mpatric/canvas-snake'>Source on github</a></div>
-    </footer>
-  </body>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+    <script type="text/javascript" src="snake.js"></script>
+
+</body>
+
 </html>
